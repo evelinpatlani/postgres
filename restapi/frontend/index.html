@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>API Plantas</title>
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Tu JS -->
+    <script src="callrestapi.js"></script>
+</head>
+<body>
+
+    <h1>Registro de Plantas</h1>
+
+    <input type="text" id="nombre_comun" placeholder="Nombre común"><br><br>
+    <input type="text" id="nombre_cientifico" placeholder="Nombre científico"><br><br>
+    <input type="text" id="descripcion" placeholder="Descripción"><br><br>
+
+    <button onclick="crearPlanta()">Guardar</button>
+    <button onclick="getPlantas()">Mostrar</button>
+    
+    <h2>Resultados:</h2>
+    <div id="resultado"></div>
+
+</body>
+</html>
