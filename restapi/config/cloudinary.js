@@ -1,7 +1,7 @@
 const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
-  cloud_name: "PLANTAS",
+  cloud_name: "dqz92relq",
   api_key: "379278483236291",
   api_secret: "NjGfrFYhwx_GDUrfbCXtYF9vkPo"
 });

@@ -2,21 +2,33 @@ const url = "http://localhost:8080/api/plantas";
 
 // Guardar o actualizar
 function guardar() {
+
     let id = $("#id").val();
 
-    let planta = {
-        nombre_comun: $("#nombre_comun").val(),
-        nombre_cientifico: $("#nombre_cientifico").val(),
-        descripcion: $("#descripcion").val()
-    };
+    let formData = new FormData();
+
+    formData.append("nombre_comun", $("#nombre_comun").val());
+    formData.append("nombre_cientifico", $("#nombre_cientifico").val());
+    formData.append("descripcion", $("#descripcion").val());
+
+    let file = $("#imagen")[0].files[0];
+
+    // 👇 SOLO si hay imagen
+    if (file) {
+        formData.append("imagen", file);
+    }
 
     if (id) {
-        // UPDATE
+        // UPDATE (sin imagen por ahora)
         $.ajax({
             url: url + "/" + id,
             type: "PUT",
             contentType: "application/json",
-            data: JSON.stringify(planta),
+            data: JSON.stringify({
+                nombre_comun: $("#nombre_comun").val(),
+                nombre_cientifico: $("#nombre_cientifico").val(),
+                descripcion: $("#descripcion").val()
+            }),
             success: function () {
                 alert("Actualizado");
                 limpiar();
@@ -24,16 +36,23 @@ function guardar() {
             }
         });
     } else {
-        // CREATE
+        // CREATE CON IMAGEN
         $.ajax({
-            url: url,
+            url: "http://localhost:8080/api/plantas-imagen",
             type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(planta),
+            data: formData,
+            processData: false,
+            contentType: false,
+
             success: function () {
-                alert("Creado");
+                alert("Planta con imagen creada 🌿");
                 limpiar();
                 getPlantas();
+            },
+
+            error: function (err) {
+                console.log(err);
+                alert("Error al subir imagen");
             }
         });
     }
@@ -50,6 +69,7 @@ function getPlantas() {
             <th>Nombre</th>
             <th>Científico</th>
             <th>Descripción</th>
+            <th>Imagen</th>
             <th>Acciones</th>
         </tr>`;
 
@@ -60,6 +80,9 @@ function getPlantas() {
                 <td>${p.nombre_comun}</td>
                 <td>${p.nombre_cientifico}</td>
                 <td>${p.descripcion}</td>
+                <td>
+                    ${p.imagen ? `<img src="${p.imagen}" width="80">` : "Sin imagen"}
+                </td>
                 <td>
                     <button onclick="editar(${p.id}, '${p.nombre_comun}', '${p.nombre_cientifico}', '${p.descripcion}')">✏️</button>
                     <button onclick="eliminar(${p.id})">🗑️</button>

@@ -16,7 +16,10 @@ module.exports = (sequelize, DataTypes) => {
   Planta.init({
     nombre_comun: DataTypes.STRING,
     nombre_cientifico: DataTypes.STRING,
-    descripcion: DataTypes.TEXT
+    descripcion: DataTypes.TEXT,
+    imagen: {
+  	type: DataTypes.TEXT
+    }
   }, {
     sequelize,
     modelName: 'Planta',
